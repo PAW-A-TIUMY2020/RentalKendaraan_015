@@ -19,13 +19,13 @@
                 @Html.DisplayNameFor(model => model.Biaya)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCustomerNavigation)
+                @Html.DisplayNameFor(model => model.IdCustomerNavigation.NamaCustomer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdJaminanNavigation)
+                @Html.DisplayNameFor(model => model.IdJaminanNavigation.NamaJaminan)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdKendaraanNavigation)
+                @Html.DisplayNameFor(model => model.IdKendaraanNavigation.NamaKendaraan)
             </th>
             <th></th>
         </tr>
@@ -40,18 +40,18 @@
                 @Html.DisplayFor(modelItem => item.Biaya)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.IdCustomer)
+                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.NamaCustomer)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdJaminanNavigation.IdJaminan)
+                @Html.DisplayFor(modelItem => item.IdJaminanNavigation.NamaJaminan)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdKendaraanNavigation.IdKendaraan)
+                @Html.DisplayFor(modelItem => item.IdKendaraanNavigation.NamaKendaraan)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPeminjaman">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdPeminjaman">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdPeminjaman">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdPeminjaman"><i class="glyphicon glyphicon-pencil"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.IdPeminjaman"><i class="glyphicon glyphicon-list"></a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPeminjaman">><i class="glyphicon glyphicon-trash"></i></a>
             </td>
         </tr>
 }

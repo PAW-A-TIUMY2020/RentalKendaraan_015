@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Tambah Data</h2>
 
 <h4>Peminjaman</h4>
 <hr />
@@ -13,26 +13,21 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="IdPeminjaman" class="control-label"></label>
-                <input asp-for="IdPeminjaman" class="form-control" />
-                <span asp-validation-for="IdPeminjaman" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="TglPeminjaman" class="control-label"></label>
                 <input asp-for="TglPeminjaman" class="form-control" />
                 <span asp-validation-for="TglPeminjaman" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdKendaraan" class="control-label"></label>
-                <select asp-for="IdKendaraan" class ="form-control" asp-items="ViewBag.IdKendaraan"></select>
+                <label asp-for="IdKendaraanNavigation.NamaKendaraan" class="control-label"></label>
+                <select asp-for="IdKendaraanNavigation.NamaKendaraan" class ="form-control" asp-items="ViewBag.IdKendaraan"></select>
             </div>
             <div class="form-group">
-                <label asp-for="IdCustomer" class="control-label"></label>
-                <select asp-for="IdCustomer" class ="form-control" asp-items="ViewBag.IdCustomer"></select>
+                <label asp-for="IdCustomerNavigation.NamaCustomer" class="control-label"></label>
+                <select asp-for="IdCustomerNavigation" class ="form-control" asp-items="ViewBag.NamaCustomer"></select>
             </div>
             <div class="form-group">
-                <label asp-for="IdJaminan" class="control-label"></label>
-                <select asp-for="IdJaminan" class ="form-control" asp-items="ViewBag.IdJaminan"></select>
+                <label asp-for="IdJaminanNavigation.NamaJaminan" class="control-label"></label>
+                <select asp-for="IdJaminanNavigation.NamaJaminan" class ="form-control" asp-items="ViewBag.IdJaminan"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Biaya" class="control-label"></label>

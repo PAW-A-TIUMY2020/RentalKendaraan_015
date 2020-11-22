@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace RentalKendaraan_015.Models
 {
-    public partial class Rent_KendaraanContext : DbContext
+    public partial class Rental_KendaraanContext : DbContext
     {
-        public Rent_KendaraanContext()
+        public Rental_KendaraanContext()
         {
         }
 
-        public Rent_KendaraanContext(DbContextOptions<Rent_KendaraanContext> options)
+        public Rental_KendaraanContext(DbContextOptions<Rental_KendaraanContext> options)
             : base(options)
         {
         }
@@ -24,13 +24,6 @@ namespace RentalKendaraan_015.Models
         public virtual DbSet<Peminjaman> Peminjaman { get; set; }
         public virtual DbSet<Pengembalian> Pengembalian { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=DZALFIQ\\DZALFIQRISABANI;Initial Catalog=Rent_Kendaraan;Integrated Security=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,15 +31,13 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdCustomer);
 
-                entity.Property(e => e.IdCustomer)
-                    .HasColumnName("ID_Customer")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdCustomer).HasColumnName("id_Customer");
 
                 entity.Property(e => e.Alamat)
-                    .HasMaxLength(150)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IdGender).HasColumnName("ID_Gender");
+                entity.Property(e => e.IdGender).HasColumnName("id_Gender");
 
                 entity.Property(e => e.NamaCustomer)
                     .HasColumnName("Nama_Customer")
@@ -73,9 +64,7 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdGender);
 
-                entity.Property(e => e.IdGender)
-                    .HasColumnName("ID_Gender")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdGender).HasColumnName("id_Gender");
 
                 entity.Property(e => e.NamaGender)
                     .HasColumnName("Nama_Gender")
@@ -87,13 +76,11 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdJaminan);
 
-                entity.Property(e => e.IdJaminan)
-                    .HasColumnName("ID_Jaminan")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdJaminan).HasColumnName("id_Jaminan");
 
                 entity.Property(e => e.NamaJaminan)
                     .HasColumnName("Nama_Jaminan")
-                    .HasMaxLength(40)
+                    .HasMaxLength(30)
                     .IsUnicode(false);
             });
 
@@ -103,9 +90,7 @@ namespace RentalKendaraan_015.Models
 
                 entity.ToTable("Jenis_Kendaraan");
 
-                entity.Property(e => e.IdJenisKendaraan)
-                    .HasColumnName("ID_Jenis_Kendaraan")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdJenisKendaraan).HasColumnName("id_Jenis_Kendaraan");
 
                 entity.Property(e => e.NamaJenisKendaraan)
                     .HasColumnName("Nama_Jenis_Kendaraan")
@@ -117,11 +102,9 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdKendaraan);
 
-                entity.Property(e => e.IdKendaraan)
-                    .HasColumnName("ID_Kendaraan")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdKendaraan).HasColumnName("id_Kendaraan");
 
-                entity.Property(e => e.IdJenisKendaraan).HasColumnName("ID_Jenis_Kendaraan");
+                entity.Property(e => e.IdJenisKendaraan).HasColumnName("id_Jenis_Kendaraan");
 
                 entity.Property(e => e.Ketersediaan)
                     .HasMaxLength(15)
@@ -129,7 +112,7 @@ namespace RentalKendaraan_015.Models
 
                 entity.Property(e => e.NamaKendaraan)
                     .HasColumnName("Nama_Kendaraan")
-                    .HasMaxLength(25)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NoPolisi)
@@ -139,7 +122,7 @@ namespace RentalKendaraan_015.Models
 
                 entity.Property(e => e.NoStnk)
                     .HasColumnName("No_STNK")
-                    .HasMaxLength(8)
+                    .HasMaxLength(15)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.IdJenisKendaraanNavigation)
@@ -154,9 +137,7 @@ namespace RentalKendaraan_015.Models
 
                 entity.ToTable("Kondisi_Kendaraan");
 
-                entity.Property(e => e.IdKondisi)
-                    .HasColumnName("ID_Kondisi")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdKondisi).HasColumnName("id_Kondisi");
 
                 entity.Property(e => e.NamaKondisi)
                     .HasColumnName("Nama_Kondisi")
@@ -168,15 +149,13 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdPeminjaman);
 
-                entity.Property(e => e.IdPeminjaman)
-                    .HasColumnName("ID_Peminjaman")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdPeminjaman).HasColumnName("id_Peminjaman");
 
-                entity.Property(e => e.IdCustomer).HasColumnName("ID_Customer");
+                entity.Property(e => e.IdCustomer).HasColumnName("id_Customer");
 
-                entity.Property(e => e.IdJaminan).HasColumnName("ID_Jaminan");
+                entity.Property(e => e.IdJaminan).HasColumnName("id_Jaminan");
 
-                entity.Property(e => e.IdKendaraan).HasColumnName("ID_Kendaraan");
+                entity.Property(e => e.IdKendaraan).HasColumnName("id_Kendaraan");
 
                 entity.Property(e => e.TglPeminjaman)
                     .HasColumnName("Tgl_Peminjaman")
@@ -202,13 +181,11 @@ namespace RentalKendaraan_015.Models
             {
                 entity.HasKey(e => e.IdPengembalian);
 
-                entity.Property(e => e.IdPengembalian)
-                    .HasColumnName("ID_Pengembalian")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdPengembalian).HasColumnName("id_Pengembalian");
 
-                entity.Property(e => e.IdKondisi).HasColumnName("ID_Kondisi");
+                entity.Property(e => e.IdKondisi).HasColumnName("id_Kondisi");
 
-                entity.Property(e => e.IdPeminjaman).HasColumnName("ID_Peminjaman");
+                entity.Property(e => e.IdPeminjaman).HasColumnName("id_Peminjaman");
 
                 entity.Property(e => e.TglPengembalian)
                     .HasColumnName("Tgl_Pengembalian")

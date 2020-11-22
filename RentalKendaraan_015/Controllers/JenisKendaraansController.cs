@@ -11,9 +11,9 @@ namespace RentalKendaraan_015.Controllers
 {
     public class JenisKendaraansController : Controller
     {
-        private readonly Rent_KendaraanContext _context;
+        private readonly Rental_KendaraanContext _context;
 
-        public JenisKendaraansController(Rent_KendaraanContext context)
+        public JenisKendaraansController(Rental_KendaraanContext context)
         {
             _context = context;
         }

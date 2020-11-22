@@ -10,7 +10,11 @@ namespace RentalKendaraan_015.Models
 
         [Required(ErrorMessage = "Tanggal pengembalian Wajib diisi!")]
         public DateTime? TglPengembalian { get; set; }
+
+        [Required(ErrorMessage = "Peminjam Wajib diisi!")]
         public int? IdPeminjaman { get; set; }
+
+        [Required(ErrorMessage = "Kondisi Wajib diisi!")]
         public int? IdKondisi { get; set; }
 
         [Required(ErrorMessage = "Denda Kendaraan Wajib diisi!")]

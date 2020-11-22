@@ -11,9 +11,9 @@ namespace RentalKendaraan_015.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly Rent_KendaraanContext _context;
+        private readonly Rental_KendaraanContext _context;
 
-        public CustomersController(Rent_KendaraanContext context)
+        public CustomersController(Rental_KendaraanContext context)
         {
             _context = context;
         }
@@ -21,8 +21,8 @@ namespace RentalKendaraan_015.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var rent_KendaraanContext = _context.Customer.Include(c => c.IdGenderNavigation);
-            return View(await rent_KendaraanContext.ToListAsync());
+            var rental_KendaraanContext = _context.Customer.Include(c => c.IdGenderNavigation);
+            return View(await rental_KendaraanContext.ToListAsync());
         }
 
         // GET: Customers/Details/5

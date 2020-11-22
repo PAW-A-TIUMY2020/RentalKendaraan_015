@@ -11,9 +11,9 @@ namespace RentalKendaraan_015.Controllers
 {
     public class PengembaliansController : Controller
     {
-        private readonly Rent_KendaraanContext _context;
+        private readonly Rental_KendaraanContext _context;
 
-        public PengembaliansController(Rent_KendaraanContext context)
+        public PengembaliansController(Rental_KendaraanContext context)
         {
             _context = context;
         }
@@ -21,8 +21,8 @@ namespace RentalKendaraan_015.Controllers
         // GET: Pengembalians
         public async Task<IActionResult> Index()
         {
-            var rent_KendaraanContext = _context.Pengembalian.Include(p => p.IdKondisiNavigation).Include(p => p.IdPeminjamanNavigation);
-            return View(await rent_KendaraanContext.ToListAsync());
+            var rental_KendaraanContext = _context.Pengembalian.Include(p => p.IdKondisiNavigation).Include(p => p.IdPeminjamanNavigation);
+            return View(await rental_KendaraanContext.ToListAsync());
         }
 
         // GET: Pengembalians/Details/5

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Data</h2>
 
 <h4>Peminjaman</h4>
 <hr />
@@ -19,17 +19,17 @@
                 <span asp-validation-for="TglPeminjaman" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdKendaraan" class="control-label"></label>
+                <label asp-for="IdKendaraanNavigation.NamaKendaraan" class="control-label"></label>
                 <select asp-for="IdKendaraan" class="form-control" asp-items="ViewBag.IdKendaraan"></select>
                 <span asp-validation-for="IdKendaraan" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdCustomer" class="control-label"></label>
+                <label asp-for="IdCustomerNavigation.NamaCustomer" class="control-label"></label>
                 <select asp-for="IdCustomer" class="form-control" asp-items="ViewBag.IdCustomer"></select>
                 <span asp-validation-for="IdCustomer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdJaminan" class="control-label"></label>
+                <label asp-for="IdJaminanNavigation.NamaJaminan" class="control-label"></label>
                 <select asp-for="IdJaminan" class="form-control" asp-items="ViewBag.IdJaminan"></select>
                 <span asp-validation-for="IdJaminan" class="text-danger"></span>
             </div>

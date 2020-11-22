@@ -35,7 +35,7 @@ namespace RentalKendaraan_015
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<Models.Rent_KendaraanContext>(options =>
+            services.AddDbContext<Models.Rental_KendaraanContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Default")));
         }
 

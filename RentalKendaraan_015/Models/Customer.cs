@@ -11,13 +11,14 @@ namespace RentalKendaraan_015.Models
             Peminjaman = new HashSet<Peminjaman>();
         }
 
+        
         public int IdCustomer { get; set; }
 
-        [Required(ErrorMessage = "Nama Customer Wajib diisi!" )]
+        [Required(ErrorMessage = "Nama Customer Wajib diisi!")]
         public string NamaCustomer { get; set; }
 
         [Required(ErrorMessage = "NIK Wajib diisi!")]
-        [RegularExpression("^[0-9]*$", ErrorMessage ="NIK hanya boleh diisi dengan angka")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "NIK hanya boleh diisi dengan angka")]
         public string Nik { get; set; }
 
         [Required(ErrorMessage = "Alamat Customer Wajib diisi!")]
@@ -34,7 +35,5 @@ namespace RentalKendaraan_015.Models
 
         public Gender IdGenderNavigation { get; set; }
         public ICollection<Peminjaman> Peminjaman { get; set; }
-
-        
     }
 }

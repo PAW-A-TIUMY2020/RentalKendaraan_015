@@ -16,16 +16,17 @@ namespace RentalKendaraan_015.Models
         [Required(ErrorMessage = "Nama Kendaraan Wajib diisi!")]
         public string NamaKendaraan { get; set; }
 
-        [MaxLength(9, ErrorMessage = "No Polisi tidak boleh lebih dari 13 angka dan huruf")]
+        [MaxLength(9, ErrorMessage = "No Polisi Salah")]
         [Required(ErrorMessage = "No Polisi Wajib diisi!")]
         public string NoPolisi { get; set; }
 
         [Required(ErrorMessage = "No STNK Wajib diisi!")]
         public string NoStnk { get; set; }
 
+        [Required(ErrorMessage = "Jenis Kendaraan Wajib diisi!")]
         public int? IdJenisKendaraan { get; set; }
 
-
+        [Required(ErrorMessage = "Ketersediaan Wajib diisi!")]
         public string Ketersediaan { get; set; }
 
         public JenisKendaraan IdJenisKendaraanNavigation { get; set; }

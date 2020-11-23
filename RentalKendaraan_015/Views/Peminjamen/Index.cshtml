@@ -7,25 +7,25 @@
 <h2>Data Peminjaman</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tambah Data</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TglPeminjaman)
+                @Html.DisplayName("Tanggal Peminjaman")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Biaya)
+                @Html.DisplayName("Biaya")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCustomerNavigation.NamaCustomer)
+                @Html.DisplayName("Nama Customer")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdJaminanNavigation.NamaJaminan)
+                @Html.DisplayName("Nama Jaminan")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdKendaraanNavigation.NamaKendaraan)
+                @Html.DisplayName("Nama Kendaraan")
             </th>
             <th></th>
         </tr>

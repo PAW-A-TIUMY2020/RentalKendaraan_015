@@ -19,9 +19,35 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: KondisiKendaraans
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string knds, string searchString)
         {
-            return View(await _context.KondisiKendaraan.ToListAsync());
+            //list menyimpan ketersediaan
+            var kndsList = new List<string>();
+
+            //query mengambil data
+            var kndsQuery = from d in _context.KondisiKendaraan orderby d.NamaKondisi select d.NamaKondisi;
+
+            kndsList.AddRange(kndsQuery.Distinct());
+
+            //Menampilkan di view
+            ViewBag.knds = new SelectList(kndsList);
+
+            //memanggil db context
+            var menu = from m in _context.KondisiKendaraan select m;
+
+            //memilih dropdownlist Nama KondisiKendaraan
+            if (!string.IsNullOrEmpty(knds))
+            {
+                menu = menu.Where(x => x.NamaKondisi == knds);
+            }
+
+            //Search data
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(s => s.NamaKondisi.Contains(searchString));
+            }
+
+            return View(await menu.ToListAsync());
         }
 
         // GET: KondisiKendaraans/Details/5

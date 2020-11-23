@@ -19,10 +19,36 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Pengembalians
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string kmbl, string searchString)
         {
-            var rental_KendaraanContext = _context.Pengembalian.Include(p => p.IdKondisiNavigation).Include(p => p.IdPeminjamanNavigation);
-            return View(await rental_KendaraanContext.ToListAsync());
+            //list menyimpan ketersediaan
+            var kmblList = new List<string>();
+
+            //query mengambil data
+            var kmblQuery = from d in _context.Pengembalian orderby d.Denda select d.Denda.ToString();
+
+            kmblList.AddRange(kmblQuery.Distinct());
+
+            //Menampilkan di view
+            ViewBag.kmbl = new SelectList(kmblList);
+
+            //memanggil db context
+            var menu = from m in _context.Pengembalian.Include(k => k.IdKondisiNavigation).Include(k => k.IdPeminjamanNavigation) select m;
+
+            //memilih dropdownlist Denda
+            if (!string.IsNullOrEmpty(kmbl))
+            {
+                menu = menu.Where(x => x.Denda.ToString() == kmbl);
+            }
+
+            //Search data
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(s => s.TglPengembalian.ToString().Contains(searchString) || s.Denda.ToString().Contains(searchString)
+                || s.IdKondisiNavigation.NamaKondisi.Contains(searchString) || s.IdPeminjamanNavigation.IdPeminjaman.ToString().Contains(searchString));
+            }
+
+            return View(await menu.ToListAsync());
         }
 
         // GET: Pengembalians/Details/5
@@ -48,7 +74,7 @@ namespace RentalKendaraan_015.Controllers
         // GET: Pengembalians/Create
         public IActionResult Create()
         {
-            ViewData["IdKondisi"] = new SelectList(_context.KondisiKendaraan, "IdKondisi", "IdKondisi");
+            ViewData["IdKondisi"] = new SelectList(_context.KondisiKendaraan, "IdKondisi", "NamaKondisi");
             ViewData["IdPeminjaman"] = new SelectList(_context.Peminjaman, "IdPeminjaman", "IdPeminjaman");
             return View();
         }

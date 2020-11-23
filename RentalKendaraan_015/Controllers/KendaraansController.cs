@@ -19,10 +19,36 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Kendaraans
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string ktsd, string searchString)
         {
-            var rental_KendaraanContext = _context.Kendaraan.Include(k => k.IdJenisKendaraanNavigation);
-            return View(await rental_KendaraanContext.ToListAsync());
+            //list menyimpan ketersediaan
+            var ktsdList = new List<string>();
+
+            //query mengambil data
+            var ktsQuery = from d in _context.Kendaraan orderby d.Ketersediaan select d.Ketersediaan;
+
+            ktsdList.AddRange(ktsQuery.Distinct());
+
+            //Menampilkan di view
+            ViewBag.ktsd = new SelectList(ktsdList);
+
+            //memanggil db context
+            var menu = from m in _context.Kendaraan.Include(k => k.IdJenisKendaraanNavigation) select m;
+
+            //memilih dropdownlist Ketersediaan
+            if (!string.IsNullOrEmpty(ktsd))
+            {
+                menu = menu.Where(x => x.Ketersediaan == ktsd);
+            }
+
+            //Search data
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(s => s.NoPolisi.Contains(searchString) || s.NamaKendaraan.Contains(searchString)
+                || s.NoStnk.Contains(searchString));
+            }
+
+            return View(await menu.ToListAsync());
         }
 
         // GET: Kendaraans/Details/5
@@ -47,7 +73,7 @@ namespace RentalKendaraan_015.Controllers
         // GET: Kendaraans/Create
         public IActionResult Create()
         {
-            ViewData["IdJenisKendaraan"] = new SelectList(_context.JenisKendaraan, "IdJenisKendaraan", "IdJenisKendaraan");
+            ViewData["IdJenisKendaraan"] = new SelectList(_context.JenisKendaraan, "IdJenisKendaraan", "NamaJenisKendaraan");
             return View();
         }
 

@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Genders
-        public async Task<IActionResult> Index(string gender, string searchString)
+        public async Task<IActionResult> Index(string gender, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             //list menyimpan ketersediaan
             var genderList = new List<string>();
@@ -47,7 +47,40 @@ namespace RentalKendaraan_015.Controllers
                 menu = menu.Where(s => s.NamaGender.Contains(searchString));
             }
 
-            return View(await menu.ToListAsync());
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["GenderSortParam"] = string.IsNullOrEmpty(sortOrder) ? "gender_desc" : "";
+            
+
+            switch (sortOrder)
+            {
+                case "gender_desc":
+                    menu = menu.OrderByDescending(s => s.NamaGender);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.NamaGender);
+                    break;
+            }
+
+
+            return View(await PaginatedList<Gender>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Genders/Details/5

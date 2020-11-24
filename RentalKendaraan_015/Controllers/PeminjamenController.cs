@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Peminjamen
-        public async Task<IActionResult> Index(string pnjm, string searchString)
+        public async Task<IActionResult> Index(string pnjm, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             //list menyimpan ketersediaan
             var pnjmList = new List<string>();
@@ -48,7 +48,45 @@ namespace RentalKendaraan_015.Controllers
                 || s.IdJaminanNavigation.NamaJaminan.Contains(searchString) || s.IdKendaraanNavigation.NamaKendaraan.Contains(searchString));
             }
 
-            return View(await menu.ToListAsync());
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
+
+            if(searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder)?"name_desc" : "";
+            ViewData["DateSortParam"] = sortOrder == "Data"? "date_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.IdCustomerNavigation.NamaCustomer);
+                    break;
+
+                case "Date":
+                    menu = menu.OrderBy(s => s.TglPeminjaman);
+                    break;
+
+                case "date_desc":
+                    menu = menu.OrderByDescending(s => s.TglPeminjaman);
+                    break;
+            }
+
+
+            return View(await PaginatedList<Peminjaman>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
+            //return View(await menu.ToListAsync());
         }
 
         // GET: Peminjamen/Details/5

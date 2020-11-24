@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalKendaraan_015.Models.KondisiKendaraan>
+﻿@model PaginatedList<RentalKendaraan_015.Models.KondisiKendaraan>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,7 +22,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NamaKondisi)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["KondisiSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Kondisi</a>
             </th>
             <th></th>
         </tr>
@@ -43,3 +43,21 @@
         }
     </tbody>
 </table>
+
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["currentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentfilter="@ViewData["currentFilter"]"
+   class="btn btn-default @prevDisabled">Previous</a>
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["currentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentfilter="@ViewData["currentFilter"]"
+   class="btn btn-default @nextDisabled">Next</a>

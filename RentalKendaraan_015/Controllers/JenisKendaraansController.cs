@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: JenisKendaraans
-        public async Task<IActionResult> Index(string jnsk, string searchString)
+        public async Task<IActionResult> Index(string jnsk, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             //list menyimpan ketersediaan
             var jnskList = new List<string>();
@@ -47,7 +47,41 @@ namespace RentalKendaraan_015.Controllers
                 menu = menu.Where(s => s.NamaJenisKendaraan.Contains(searchString));
             }
 
-            return View(await menu.ToListAsync());
+
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["JenisSortParam"] = string.IsNullOrEmpty(sortOrder) ? "jenis_desc" : "";
+
+
+            switch (sortOrder)
+            {
+                case "jenis_desc":
+                    menu = menu.OrderByDescending(s => s.NamaJenisKendaraan);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.NamaJenisKendaraan);
+                    break;
+            }
+
+
+            return View(await PaginatedList<JenisKendaraan>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: JenisKendaraans/Details/5

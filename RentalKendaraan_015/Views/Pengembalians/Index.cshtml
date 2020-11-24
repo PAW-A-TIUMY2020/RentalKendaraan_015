@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalKendaraan_015.Models.Pengembalian>
+﻿@model PaginatedList<RentalKendaraan_015.Models.Pengembalian>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,16 +23,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Tanggal Pengembalian")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Tanggal Pengembalian</a>
             </th>
             <th>
-                @Html.DisplayName("Denda")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DendaSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Tanggal Denda</a>
             </th>
             <th>
-                @Html.DisplayName("Kondisi")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["KondisiSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Kondisi</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdPeminjamanNavigation)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">ID Peminjam</a>
             </th>
             <th></th>
         </tr>

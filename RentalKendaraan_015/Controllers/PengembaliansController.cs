@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Pengembalians
-        public async Task<IActionResult> Index(string kmbl, string searchString)
+        public async Task<IActionResult> Index(string kmbl, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             //list menyimpan ketersediaan
             var kmblList = new List<string>();
@@ -48,7 +48,67 @@ namespace RentalKendaraan_015.Controllers
                 || s.IdKondisiNavigation.NamaKondisi.Contains(searchString) || s.IdPeminjamanNavigation.IdPeminjaman.ToString().Contains(searchString));
             }
 
-            return View(await menu.ToListAsync());
+
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["DateSortParam"] = string.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewData["DendaSortParam"] = sortOrder == "Denda" ? "denda_desc" : "Denda";
+            ViewData["KondisiSortParam"] = sortOrder == "Kondisi" ? "kondisi_desc" : "Kondisi";
+            ViewData["IdSortParam"] = sortOrder == "Id" ? "id_desc" : "Id";
+
+            switch (sortOrder)
+            {
+                case "date_desc":
+                    menu = menu.OrderByDescending(s => s.TglPengembalian);
+                    break;
+
+                case "Denda":
+                    menu = menu.OrderBy(s => s.Denda);
+                    break;
+
+                case "denda_desc":
+                    menu = menu.OrderByDescending(s => s.Denda);
+                    break;
+
+                case "Id":
+                    menu = menu.OrderBy(s => s.IdPeminjaman);
+                    break;
+
+                case "id_desc":
+                    menu = menu.OrderByDescending(s => s.IdPeminjaman);
+                    break;
+
+                case "Kondisi":
+                    menu = menu.OrderBy(s => s.IdKondisiNavigation.NamaKondisi);
+                    break;
+
+                case "kondisi_desc":
+                    menu = menu.OrderByDescending(s => s.IdKondisiNavigation.NamaKondisi);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.TglPengembalian);
+                    break;
+            }
+
+
+            return View(await PaginatedList<Pengembalian>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Pengembalians/Details/5

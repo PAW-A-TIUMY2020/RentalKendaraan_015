@@ -67,7 +67,10 @@ namespace RentalKendaraan_015.Controllers
 
             //Sorting data
             ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder)?"name_desc" : "";
-            ViewData["DateSortParam"] = sortOrder == "Data"? "date_desc" : "Date";
+            ViewData["DateSortParam"] = sortOrder == "Date"? "date_desc" : "Date";
+            ViewData["BiayaSortParam"] = sortOrder == "Biaya" ? "biaya_desc" : "Biaya";
+            ViewData["JaminanSortParam"] = sortOrder== "Jaminan"? "jaminan_desc" : "Jaminan";
+            ViewData["KendaraanSortParam"] = sortOrder == "Kendaraan" ? "kendaraan_desc" : "Kendaraan";
 
             switch (sortOrder)
             {
@@ -81,6 +84,34 @@ namespace RentalKendaraan_015.Controllers
 
                 case "date_desc":
                     menu = menu.OrderByDescending(s => s.TglPeminjaman);
+                    break;
+
+                case "Biaya":
+                    menu = menu.OrderBy(s => s.Biaya);
+                    break;
+
+                case "biaya_desc":
+                    menu = menu.OrderByDescending(s => s.Biaya);
+                    break;
+
+                case "Jaminan":
+                    menu = menu.OrderBy(s => s.IdJaminanNavigation.NamaJaminan);
+                    break;
+
+                case "jaminan_desc":
+                    menu = menu.OrderByDescending(s => s.IdJaminanNavigation.NamaJaminan);
+                    break;
+
+                case "Kendaraan":
+                    menu = menu.OrderBy(s => s.IdKendaraanNavigation.NamaKendaraan);
+                    break;
+
+                case "kendaraan_desc":
+                    menu = menu.OrderByDescending(s => s.IdKendaraanNavigation.NamaKendaraan);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.IdCustomerNavigation.NamaCustomer);
                     break;
             }
 

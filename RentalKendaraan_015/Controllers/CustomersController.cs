@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string cust, string searchString)
+        public async Task<IActionResult> Index(string cust, string searchString, string sortOrder, string currentFilter, int? pageNumber )
         {
             //list menyimpan ketersediaan
             var custList = new List<string>();
@@ -48,7 +48,75 @@ namespace RentalKendaraan_015.Controllers
                 || s.NoHp.Contains(searchString));
             }
 
-            return View(await menu.ToListAsync());
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NIKSortParam"] = sortOrder == "Nik" ? "nik_desc" : "Nik";
+            ViewData["AlamatSortParam"] = sortOrder == "Alamat" ? "alamat_desc" : "Alamat";
+            ViewData["HpSortParam"] = sortOrder == "Hp" ? "hp_desc" : "Hp";
+            ViewData["GenderSortParam"] = sortOrder== "Gender" ? "gender_desc" : "Gender";
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.NamaCustomer);
+                    break;
+
+                case "Nik":
+                    menu = menu.OrderBy(s => s.Nik);
+                    break;
+                case "nik_desc":
+                    menu = menu.OrderBy(s => s.Nik);
+                    break;
+
+                case "Alamat":
+                    menu = menu.OrderBy(s => s.Alamat);
+                    break;
+                case "alamat_desc":
+                    menu = menu.OrderByDescending(s => s.Alamat);
+                    break;
+
+                case "Hp":
+                    menu = menu.OrderBy(s => s.NoHp);
+                    break;
+                case "hp_desc":
+                    menu = menu.OrderByDescending(s => s.NoHp);
+                    break;
+
+
+                case "Gender":
+                    menu = menu.OrderBy(s => s.IdGenderNavigation.NamaGender);
+                    break;
+                case "gender_desc":
+                    menu = menu.OrderByDescending(s => s.IdGenderNavigation.NamaGender);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.NamaCustomer);
+                    break;
+
+            }
+
+
+            return View(await PaginatedList<Customer>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
+
         }
 
         // GET: Customers/Details/5
@@ -73,7 +141,7 @@ namespace RentalKendaraan_015.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            ViewData["IdGender"] = new SelectList(_context.Gender, "IdGender", "IdGender");
+            ViewData["IdGender"] = new SelectList(_context.Gender, "IdGender", "NamaGender");
             return View();
         }
 

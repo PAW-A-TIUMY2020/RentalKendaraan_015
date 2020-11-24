@@ -19,7 +19,7 @@ namespace RentalKendaraan_015.Controllers
         }
 
         // GET: Kendaraans
-        public async Task<IActionResult> Index(string ktsd, string searchString)
+        public async Task<IActionResult> Index(string ktsd, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
             //list menyimpan ketersediaan
             var ktsdList = new List<string>();
@@ -47,8 +47,76 @@ namespace RentalKendaraan_015.Controllers
                 menu = menu.Where(s => s.NoPolisi.Contains(searchString) || s.NamaKendaraan.Contains(searchString)
                 || s.NoStnk.Contains(searchString));
             }
+            //Membuat pagedlist
+            ViewData["currentSort"] = sortOrder;
 
-            return View(await menu.ToListAsync());
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+
+            //definisi jum;ah data pada halaman
+            int pageSize = 5;
+
+            //Sorting data
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NopolSortParam"] = sortOrder == "Nopol" ? "nopol_desc" : "Nopol";
+            ViewData["StnkSortParam"] = sortOrder == "Stnk" ? "stnk_desc" : "Stnk";
+            ViewData["KtsdSortParam"] = sortOrder == "Ktsd" ? "ktsd_desc" : "Ktsd";
+            ViewData["JnsSortParam"] = sortOrder == "Jns" ? "jns_desc" : "Jns";
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.NamaKendaraan);
+                    break;
+
+                case "Nopol":
+                    menu = menu.OrderBy(s => s.NoPolisi);
+                    break;
+
+                case "nopol_desc":
+                    menu = menu.OrderByDescending(s => s.NoPolisi);
+                    break;
+
+                case "Stnk":
+                    menu = menu.OrderBy(s => s.NoStnk);
+                    break;
+
+                case "stnk_desc":
+                    menu = menu.OrderByDescending(s => s.NoStnk);
+                    break;
+
+                case "Ktsd":
+                    menu = menu.OrderBy(s => s.Ketersediaan);
+                    break;
+
+                case "ktsd_desc":
+                    menu = menu.OrderByDescending(s => s.Ketersediaan);
+                    break;
+
+                case "Jns":
+                    menu = menu.OrderBy(s => s.IdJenisKendaraanNavigation.NamaJenisKendaraan);
+                    break;
+
+                case "jns_desc":
+                    menu = menu.OrderByDescending(s => s.IdJenisKendaraanNavigation.NamaJenisKendaraan);
+                    break;
+
+                default:
+                    menu = menu.OrderBy(s => s.NamaKendaraan);
+                    break;
+            }
+
+
+            return View(await PaginatedList<Kendaraan>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
+
         }
 
         // GET: Kendaraans/Details/5

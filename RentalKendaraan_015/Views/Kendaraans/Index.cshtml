@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalKendaraan_015.Models.Kendaraan>
+﻿@model PaginatedList<RentalKendaraan_015.Models.Kendaraan>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,19 +24,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Nama Kendaraan")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Nama Kendaraan</a>
             </th>
             <th>
-                @Html.DisplayName("Nomor Polisi")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NopolSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Nomor Polisi</a>
             </th>
             <th>
-                @Html.DisplayName("Nomor STNK")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StnkSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">NomorStnk</a>
             </th>
             <th>
-                @Html.DisplayName("Ketersediaan")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["KtsdSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Ketersediaan</a>
             </th>
             <th>
-                @Html.DisplayName("Jenis Kendaraan")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["JnsSortParam"]" asp-route-currentFilter="@ViewData["currentFilter"]">Jenis</a>
             </th>
             <th></th>
         </tr>
@@ -69,3 +69,20 @@
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["currentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentfilter="@ViewData["currentFilter"]"
+   class="btn btn-default @prevDisabled">Previous</a>
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["currentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentfilter="@ViewData["currentFilter"]"
+   class="btn btn-default @nextDisabled">Next</a>
